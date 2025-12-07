@@ -20,7 +20,7 @@ To install the script run:
 
 ```bash
 git clone https://github.com/Airbus6804/Omarchy-Cursor-Projects-Menu.git 
-cd ./cursor-projects-menu
+cd ./Omarchy-Cursor-Projects-Menu
 npm i
 chmod +x ./cursor-projects-menu.sh
 ```
@@ -29,12 +29,12 @@ Move it to the config folder
 
 ```
 mkdir ~/.config/hypr/scripts
-mv cursor-projects-menu ~/.config/hypr/scripts
+mv Omarchy-Cursor-Projects-Menu ~/.config/hypr/scripts/Omarchy-Cursor-Projects-Menu
 ```
 Add the bind in your config
 
 ```
-bindd = SUPER SHIFT, C, Cursor History, exec, ~/.config/hypr/scripts/latest-cursor-projects-menu.sh/cursor-projects-menu.sh
+bindd = SUPER SHIFT, C, Cursor History, exec, ~/.config/hypr/scripts/Omarchy-Cursor-Projects-Menu/cursor-projects-menu.sh
 ```
 
 ## How It Works
