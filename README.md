@@ -24,6 +24,7 @@ cd ./Omarchy-Cursor-Projects-Menu
 npm i
 chmod +x ./cursor-projects-menu.sh
 mkdir ~/.config/hypr/scripts
+cd ..
 mv Omarchy-Cursor-Projects-Menu ~/.config/hypr/scripts/Omarchy-Cursor-Projects-Menu
 ```
 Add the bind in your config
