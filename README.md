@@ -5,7 +5,7 @@ A lightweight launcher to quickly open recent IDE projects (Cursor, VS Code, VS 
 ## Features
 
 - Lists all your IDE workspaces sorted by **most recently used**
-- Supports multiple editors: **Cursor**, **VS Code**, **VS Code OSS**, **VSCodium**  and **ZED**
+- Supports multiple editors: **Cursor**, **VS Code**, **VS Code OSS**, **VSCodium**  and **Zed**
 - Tabbed interface to filter by IDE
 - Shows which editor each project belongs to when viewing all projects
 - Fuzzy search through project names
@@ -30,9 +30,7 @@ A lightweight launcher to quickly open recent IDE projects (Cursor, VS Code, VS 
 ```bash
 mkdir -p ~/.config/hypr/scripts && \
 git clone https://github.com/tomkyriacou64/Omarchy-Code-Projects-Menu.git ~/.config/hypr/scripts/Omarchy-Code-Projects-Menu && \
-cd ~/.config/hypr/scripts/Omarchy-Code-Projects-Menu && \
-npm i && \
-chmod +x ./projects-menu.sh
+chmod +x ~/.config/hypr/scripts/Omarchy-Code-Projects-Menu/projects-menu.sh
 ```
 
 Add binds in your config:
@@ -66,6 +64,10 @@ bindd = SUPER SHIFT, V, VS Code Projects, exec, ~/.config/hypr/scripts/Omarchy-C
 2. Extracts project paths and sorts them by modification time (newest first)
 3. `projects-menu.sh` shows a tabbed interface to select IDE, then lists projects
 4. Opens the selected project in the appropriate editor (automatically detected)
+
+## Contribution
+
+Contributions are welcome! If you have ideas for improvements or bug fixes, feel free to submit a pull request.
 
 ## Credits
 

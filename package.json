@@ -1,13 +1,13 @@
 {
-  "name": "latest-cursor-projects-menu",
+  "name": "code-projects-menu",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lightweight launcher for recent IDE projects using dmenu.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tom Kyriacou",
   "license": "ISC",
   "type": "module"
 }
