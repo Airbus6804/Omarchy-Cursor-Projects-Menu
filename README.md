@@ -2,6 +2,8 @@
 
 A lightweight launcher to quickly open recent IDE projects (Cursor, VS Code, VS Code OSS, VSCodium & Zed) using a dmenu-style menu.
 
+This is an old repo, to get the latest updates visit [Omarchy Projects Menu](https://github.com/Airbus6804/Omarchy-Projects-Menu.git)
+
 ## Features
 
 - Lists all your IDE workspaces sorted by **most recently used**
