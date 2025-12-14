@@ -75,4 +75,4 @@ Contributions are welcome! If you have ideas for improvements or bug fixes, feel
 
 ## Credits
 
-This project is a fork of [Omarchy-Cursor-Projects-Menu](https://github.com/Airbus6804/Omarchy-Cursor-Projects-Menu) by [Airbus6804](https://github.com/Airbus6804), extended to support multiple IDEs.
+Special thanks to [tomkyriacou64](https://github.com/tomkyriacou64) for dropping nodejs dependency and extending this to support multiple IDEs.
