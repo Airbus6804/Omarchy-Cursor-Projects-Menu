@@ -115,6 +115,7 @@ get_tabs() {
     echo "All (${all_count})|all"
     echo "───|divider"
     echo "➕ Create New Project|create"
+    echo "📂 Open Project|open"
 }
 
 get_projects() {
@@ -155,10 +156,10 @@ source "${SCRIPT_DIR}/create-project.sh"
 
 if [[ -z "$EDITOR_FILTER" ]]; then
     tabs=$(get_tabs)
-    tab_count=$(echo "$tabs" | grep -v '|divider$' | grep -v '|create$' | wc -l)
+    tab_count=$(echo "$tabs" | grep -v '|divider$' | grep -v '|create$' | grep -v '|open$' | wc -l)
     
     if [[ $tab_count -eq 1 ]]; then
-        EDITOR_FILTER=$(echo "$tabs" | grep -v '|divider$' | grep -v '|create$' | awk -F'|' '{print $2}')
+        EDITOR_FILTER=$(echo "$tabs" | grep -v '|divider$' | grep -v '|create$' | grep -v '|open$' | awk -F'|' '{print $2}')
     else
         selected_tab=$(echo "$tabs" | cut -d'|' -f1 | walker --dmenu -p "Select IDE…")
         [[ -z "$selected_tab" ]] && exit 0
@@ -167,6 +168,12 @@ if [[ -z "$EDITOR_FILTER" ]]; then
         if [[ "$selected_tab" == "➕ Create New Project" ]]; then
             all_projects=$(get_projects "all")
             create_new_project "" "$all_projects"
+            exit 0
+        fi
+        
+        # Check if "Open Project" was selected
+        if [[ "$selected_tab" == "📂 Open Project" ]]; then
+            open_existing_project
             exit 0
         fi
         

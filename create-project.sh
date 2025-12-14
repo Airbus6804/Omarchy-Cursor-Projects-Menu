@@ -134,3 +134,119 @@ create_new_project() {
     "$editor_cmd" "$project_path"
 }
 
+browse_directory() {
+    local current_dir="$1"
+    [[ -z "$current_dir" ]] && current_dir="${HOME}"
+    
+    # Resolve and normalize the path
+    if has_command realpath; then
+        current_dir=$(realpath "$current_dir" 2>/dev/null || echo "$current_dir")
+    fi
+    
+    [[ ! -d "$current_dir" ]] && { echo "Invalid directory: $current_dir" >&2; return 1; }
+    
+    local items=()
+    local item
+    local home="${HOME}"
+    
+    # Add "Select this folder" at the top
+    items+=("✓ Select this folder")
+    
+    # Add directories (sorted alphabetically)
+    local dirs=()
+    shopt -s nullglob
+    for item in "$current_dir"/*; do
+        [[ -d "$item" ]] && dirs+=("📁 $(basename "$item")")
+    done
+    shopt -u nullglob
+    
+    # Sort directories and add them
+    if [[ ${#dirs[@]} -gt 0 ]]; then
+        IFS=$'\n' sorted_dirs=($(printf '%s\n' "${dirs[@]}" | sort))
+        items+=("${sorted_dirs[@]}")
+    fi
+    
+    # Add separator before navigation options (visual only, non-functional)
+    items+=("────────────────────────────")
+    
+    # Add navigation options at the end
+    [[ "$current_dir" != "/" ]] && items+=("⬆️  Go up")
+    [[ "$current_dir" != "$home" ]] && items+=("🏠 Go to home")
+    [[ -d "${home}/Projects" ]] && [[ "$current_dir" != "${home}/Projects" ]] && items+=("📂 Go to Projects")
+    [[ -d "${home}/Documents" ]] && [[ "$current_dir" != "${home}/Documents" ]] && items+=("📄 Go to Documents")
+    
+    # Show menu with current path (shortened if in home)
+    local display_path="${current_dir/#$HOME/~}"
+    local selected=$(printf '%s\n' "${items[@]}" | walker --dmenu -p "Browse: $display_path")
+    [[ -z "$selected" ]] && return 1
+    
+    # Handle special options
+    case "$selected" in
+        "────────────────────────────")
+            # Separator selected - just refresh the menu (non-selectable, visual only)
+            browse_directory "$current_dir"
+            return $?
+            ;;
+        "✓ Select this folder")
+            echo "$current_dir"
+            return 0
+            ;;
+        "⬆️  Go up")
+            browse_directory "$(dirname "$current_dir")"
+            return $?
+            ;;
+        "🏠 Go to home")
+            browse_directory "$home"
+            return $?
+            ;;
+        "📂 Go to Projects")
+            browse_directory "${home}/Projects"
+            return $?
+            ;;
+        "📄 Go to Documents")
+            browse_directory "${home}/Documents"
+            return $?
+            ;;
+    esac
+    
+    # Remove emoji prefix and get the name
+    local item_name="${selected#📁 }"
+    local new_path="${current_dir}/${item_name}"
+    
+    # Resolve path
+    if has_command realpath; then
+        new_path=$(realpath "$new_path" 2>/dev/null || echo "$new_path")
+    fi
+    
+    # If it's a directory, browse into it
+    if [[ -d "$new_path" ]]; then
+        browse_directory "$new_path"
+        return $?
+    else
+        # Shouldn't happen, but return current dir if it does
+        echo "$current_dir"
+        return 0
+    fi
+}
+
+pick_folder() {
+    local home="${HOME}"
+    local start_dir="$home"
+    
+    # Try to start from a common project location if it exists
+    [[ -d "${home}/Projects" ]] && start_dir="${home}/Projects"
+    [[ -d "${home}/Documents" ]] && start_dir="${home}/Documents"
+    
+    browse_directory "$start_dir"
+}
+
+open_existing_project() {
+    local folder_path
+    folder_path=$(pick_folder) || exit 0
+    
+    local editor_cmd
+    editor_cmd=$(select_editor "") || exit 0
+    
+    "$editor_cmd" "$folder_path"
+}
+
